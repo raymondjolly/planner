@@ -1,0 +1,31 @@
+.my-footer{
+    height: 5em;
+    background-color: #163b65;
+    color: white;
+    margin-top: 1.5em;
+    padding: 1em;
+}
+
+.room-image{
+    max-width: 50%;
+}
+
+.redText{
+  color: red;
+}
+
+.datepicker{
+  z-index: 10000;
+}
+
+/* .form-control.datepicker{
+  width: 10;
+}
+
+.datepicker-input{
+  width: 10em;
+}
+
+.swal2-popup{
+  padding: auto;;
+}  */

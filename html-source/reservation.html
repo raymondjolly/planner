@@ -8,23 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker-bs4.min.css">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
-    <style>
-        .my-footer{
-            height: 5em;
-            background-color: #163b65;
-            color: white;
-            margin-top: 1.5em;
-            padding: 1em;
-        }
-
-        .room-image{
-            max-width: 50%;
-        }
-
-        .redText{
-          color: red;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
 
 </head>
 <body>
@@ -155,15 +139,24 @@
       })();
 
       document.getElementById("colorButton").addEventListener("click", ()=>{
+        let html =`
+        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-row" id="reservation-dates-modal">
+                <div class="col">
+                  <input disabled required class="form-control" type="text" name="start" id="start" placehoder="Arrival">
+                </div>
+                <div class="col">
+                  <input disabled required class="form-control" type="text" name="end" id="end" placehoder="Arrival">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        `
 
-        // notify("error", "This is my message")
-        // attention.success()
-        //notifyModal("title", "hello world", "success", "My test blah")
-
-        attention.error({
-          msg:"Hello world",
-          icon:"info"
-        });
+        attention.custom({msg:html, title: "Choose your dates"})
       })
 
       const elem = document.getElementById('reservation-dates');
@@ -241,10 +234,47 @@
           })
         }
 
+        async function custom(c){
+          const {
+            msg="",
+            title=""
+          }=c;
+
+          const { value: formValues } = await Swal.fire({
+            title: title,
+            html: msg,
+            backdrop: false,
+            focusConfirm: false,
+            showCancelButton: true,
+            willOpen: ()=>{
+              const elem = document.getElementById("reservation-dates-modal");
+              const rp = new DateRangePicker(elem, {
+                format:'yyyy-mm-dd',
+                showOnFocus: true,
+              })
+            },
+            preConfirm: () => {
+              return [
+                document.getElementById('start').value,
+                document.getElementById('end').value
+              ]
+            },
+            didOpen:()=>{
+              document.getElementById('start').removeAttribute('disabled');
+              document.getElementById('end').removeAttribute('disabled');
+            }
+          })
+
+          if (formValues) {
+            Swal.fire(JSON.stringify(formValues))
+          }
+        }
+
         return{
           toast: toast,
           success: success,
           error: error,
+          custom: custom
         }
       }
 
