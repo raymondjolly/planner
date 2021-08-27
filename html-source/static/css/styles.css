@@ -18,14 +18,6 @@
   z-index: 10000;
 }
 
-/* .form-control.datepicker{
-  width: 10;
+.search-form {
+  max-width: 98%;
 }
-
-.datepicker-input{
-  width: 10em;
-}
-
-.swal2-popup{
-  padding: auto;;
-}  */
