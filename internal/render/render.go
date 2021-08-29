@@ -3,14 +3,14 @@ package render
 import (
 	"bytes"
 	"fmt"
+	"github.com/raymondjolly/bookings/internal/config"
+	"github.com/raymondjolly/bookings/internal/models"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
 	"github.com/justinas/nosurf"
-	"github.com/raymondjolly/bookings/pkg/config"
-	"github.com/raymondjolly/bookings/pkg/models"
 )
 
 var functions = template.FuncMap{}
@@ -58,7 +58,7 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *mod
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob("./templates/*page.tmpl")
+	pages, err := filepath.Glob("./templates/*page.gohtml")
 	renderCheck(myCache, err)
 
 	for _, page := range pages {
@@ -68,11 +68,11 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		renderCheck(myCache, err)
 
-		matches, err := filepath.Glob("./templates/*layout.tmpl")
+		matches, err := filepath.Glob("./templates/*layout.gohtml")
 		renderCheck(myCache, err)
 
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob("./templates/*layout.tmpl")
+			ts, err = ts.ParseGlob("./templates/*layout.gohtml")
 			renderCheck(myCache, err)
 		}
 		myCache[name] = ts

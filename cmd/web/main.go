@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/raymondjolly/bookings/internal/config"
+	"github.com/raymondjolly/bookings/internal/handlers"
+	"github.com/raymondjolly/bookings/internal/render"
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/raymondjolly/bookings/pkg/config"
-	"github.com/raymondjolly/bookings/pkg/handlers"
-	"github.com/raymondjolly/bookings/pkg/render"
 
 	"github.com/alexedwards/scs/v2"
 )
