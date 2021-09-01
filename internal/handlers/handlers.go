@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/raymondjolly/bookings/internal/config"
+	"github.com/raymondjolly/bookings/internal/forms"
 	"github.com/raymondjolly/bookings/internal/models"
 	"github.com/raymondjolly/bookings/internal/render"
 	"log"
@@ -53,6 +54,13 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 //Reservation renders the make reservation page
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "reservation.page.gohtml", &models.TemplateData{})
+}
+
+//PostReservation handles the posting of a reservation form
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "reservation.page.gohtml", &models.TemplateData{
+		Form: forms.New(nil),
+	})
 }
 
 //Generals renders the room page
